@@ -19,8 +19,8 @@ app.get('/', (req, res, next) => {
     res.render('index')
 })
 
-app.get('/api', (req, res, next) => {
-    const url = `https://metals-api.com/api/latest?access_key=${process.env.METALS_API_KEY}`;
+app.get('/api', async (req, res, next) => {
+    const url = `https://metals-api.com/api/timeseries?access_key=${process.env.METALS_API_KEY}&start_date=1990-12-01&end_date=2020-07-27&base=USD&symbols=XAU`;
 
     const getData = async url => {
         try {
@@ -28,7 +28,6 @@ app.get('/api', (req, res, next) => {
             const data = response.data;
 
             res.status(200).json({
-                status: 'success',
                 data
             });
 
@@ -38,6 +37,7 @@ app.get('/api', (req, res, next) => {
     };
 
     getData(url);
+
 })
 
 app.listen(process.env.PORT || 8000, () => {
